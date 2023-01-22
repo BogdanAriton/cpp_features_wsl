@@ -1,0 +1,21 @@
+Modules apperantly are currently only supported by clang starting with version 9.
+
+My setup is:
+1. I've installed clang 10 with latest LLVM and build-tools
+2. I'm running these commands to create a precompiled module that will be loaded by code (Hello.cppm module and use.cpp are in question)
+
+# From https://mariusbancila.ro/blog/2020/05/15/modules-in-clang-11/
+clang++ -Wall -std=c++20 -fmodules -c greetings.cpp -Xclang -emit-module-interface -o greetings.pcm
+clang++ -fmodules -c greetings.pcm -o greetings.o
+clang++ -Wall -std=c++20 -fmodules -fimplicit-modules -fimplicit-module-maps -fprebuilt-module-path=. greetings.o main.cpp -o main
+
+# InfoFrom Clang website:
+## Create the module:
+clang++ -Wall -std=c++20 -x c++-module Hello.cpp --precompile -o Hello.pcm
+
+## Using -fmodule to enable modules:
+
+clang++ -Wall -std=c++20 use.cpp -fmodules -fprebuilt-module-path=. Hello.pcm -o Hello.out
+
+## Using: -fmodule-file
+clang++ -Wall -std=c++20 use.cpp -fmodules -fmodule-file=Hello.pcm -o Hello.out
