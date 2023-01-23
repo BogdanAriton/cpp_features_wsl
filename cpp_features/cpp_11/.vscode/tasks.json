@@ -4,9 +4,11 @@
 		{
 			"type": "cppbuild",
 			"label": "C/C++: g++-10 build active file",
-			"command": "/usr/bin/g++-10",
+			"command": "/usr/bin/clang++-10",
 			"args": [
-				"--std=c++11",
+				"-std=c++14",
+				"-O3",
+				"-pthread",
 				"-fdiagnostics-color=always",
 				"-g",
 				"${file}",
